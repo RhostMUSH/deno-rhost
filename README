@@ -1,8 +1,6 @@
 This is a library for Deno[1] to make it easier to write execscript scripts for
 RhostMUSH[2], by pre-processing the myriad environment variables, and giving a
-print() function that munges unicode into the Rhost-native markup, by
-pre-processing the myriad environment variables, and giving a print() function
-that munges unicode into the Rhost-native markup
+print() function that munges Unicode into the Rhost-native markup.
 
 [1] https://deno.land/
 [2] http://rhostmush.com/

@@ -10,7 +10,7 @@ Sample of use:
 const Rhost = await import("https://raw.githubusercontent.com/stevensmedia/deno-rhost/master/rhost.js")
 try {
 	var environment = Rhost.environment()
-	Rhost.print(`You are using a server with execscript version: ${Rhost.environment.version}`)
+	Rhost.print(`You are using a server with execscript version: ${environment.version}`)
 } catch(e) {
 	Rhost.print("Failed parsing Rhost execscript data")
 	Rhost.print(e)

@@ -1,0 +1,2 @@
+#! /bin/sh
+deno run --location "http://localhost" --allow-read --allow-net test/test.js

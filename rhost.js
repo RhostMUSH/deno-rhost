@@ -79,11 +79,8 @@ export function environment() {
 
 /* Output back to Rhost, Rhost-encoding all Unicode code points above low ASCII */
 
-export function print(str) {
-	if(typeof str != "string") {
-		str = Deno.inspect(str)
-	}
-	var rhostEncodedString = str.split("").map(function(c) {
+export function encodeString(str) {
+	return str.split("").map(function(c) {
 		var cp = c.codePointAt(0)
 		if(cp > 127) {
 			cp = cp.toString(0x10).padStart(4, '0')
@@ -91,7 +88,13 @@ export function print(str) {
 		}
 		return c
 	}).join('')
-	console.log(rhostEncodedString)
+}
+
+export function print(str) {
+	if(typeof str != "string") {
+		str = Deno.inspect(str)
+	}
+	console.log(encodeString(str))
 }
 
 /* Colors */
@@ -668,14 +671,25 @@ export const color = {
 		if(color) {
 			return color[1]
 		} else {
-			return -1
+			throw new Error(`Color ${x11Color} not found`)
 		}
 	},
 
 	htmlToIndex: function(htmlColor) {
+		return color.hsvToIndex(color.htmlToHSV(htmlColor))
 	},
 
 	hsvToIndex: function(hsvColor) {
+		return XTermColors.reduce(function(acc, cur) {
+			var newDistance = color.hsvDistance(cur.hsv, hsvColor)
+			if(newDistance < acc.distance) {
+				return {
+					index: cur.index,
+					distance: newDistance
+				}
+			}
+			return acc
+		}, { index: 0, distance: Number.MAX_SAFE_INTEGER })
 	},
 
 	hsvDistance: function(m, n) {
@@ -690,7 +704,7 @@ export const color = {
 		try {
 			return XTermColors.find(el => el.index == index).html
 		} catch(e) {
-			return -1
+			throw new Error(`Color ${index} not found`)
 		}
 	},
 

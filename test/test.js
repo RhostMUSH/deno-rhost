@@ -15,6 +15,9 @@ describe("color", function() {
 			assert(Rhost.color.x11ToIndex(color[0]) == color[1])
 		})
 	})
+	it("should convert find XTerm colors", function() {
+		assert(Rhost.color.findXTerm(1).hsv)
+	})
 	it("should convert HTML colors to nearest xterm", function() {
 		assert([9, 196].includes(Rhost.color.htmlToIndex("ff0000")))
 		assert([9, 196].includes(Rhost.color.htmlToIndex("ff0001")))

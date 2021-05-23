@@ -674,6 +674,10 @@ export const X11ColorNames = [
 ]
 
 export const color = {
+	findXTerm: function(idx) {
+		return XTermColors.find((e) => e.index == idx)
+	},
+
 	x11ToIndex: function(x11Color) {
 		const color = X11ColorNames.find(el => el[0] == x11Color)
 		if(color) {

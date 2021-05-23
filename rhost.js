@@ -1,6 +1,6 @@
 /* Processing the environment variables sent by Rhost */
 
-export function environment() {
+function environment() {
 	var version = Deno.env.get('MUSH_VERSION')
 	var playerRef = Deno.env.get('MUSH_PLAYER')
 	var causeRef = Deno.env.get('MUSH_CAUSE')
@@ -77,7 +77,7 @@ export function environment() {
 	}
 }
 
-export function* mapString(str) {
+function* mapString(str) {
 	for(var ch of str[Symbol.iterator]()) {
 		var cp = ch.codePointAt(0)
 		if(cp > 127) {
@@ -90,7 +90,7 @@ export function* mapString(str) {
 }
 
 /* Output back to Rhost, Rhost-encoding all Unicode code points above low ASCII */
-export function encodeString(str) {
+function encodeString(str) {
 	var ret = ""
 	for(var ch of mapString(str)) {
 		ret += ch
@@ -98,7 +98,7 @@ export function encodeString(str) {
 	return ret
 }
 
-export function print(str) {
+function print(str) {
 	if(typeof str != "string") {
 		str = Deno.inspect(str)
 	}
@@ -106,7 +106,7 @@ export function print(str) {
 }
 
 /* Colors */
-export const XTermColors = [
+const XTermColors = [
 	{ index: 0, html: "000000", hsv: { hue: 0, saturation: 0, value: 0 } },
 	{ index: 1, html: "800000", hsv: { hue: 0, saturation: 1, value: 0.5019607843137255 } },
 	{ index: 2, html: "008000", hsv: { hue: 120, saturation: 1, value: 0.5019607843137255 } },
@@ -365,7 +365,7 @@ export const XTermColors = [
 	{ index: 255, html: "eeeeee", hsv: { hue: 0, saturation: 0, value: 0.9333333333333333 } }
 ]
 
-export const X11ColorNames = [
+const X11ColorNames = [
    ["aliceblue", 15], ["antiquewhite", 224], ["antiquewhite1", 230],
    ["antiquewhite2", 224], ["antiquewhite3", 181], ["antiquewhite4", 8],
    ["aquamarine", 122], ["aquamarine1",  122], ["aquamarine2", 122],
@@ -673,7 +673,7 @@ export const X11ColorNames = [
    ["yellow3", 184], ["yellow4", 100], ["yellowgreen", 113]
 ]
 
-export const color = {
+const color = {
 	findXTerm: function(idx) {
 		return XTermColors.find((e) => e.index == idx)
 	},
@@ -784,3 +784,5 @@ export const color = {
 		}
 	}
 }
+
+export { environment, mapString, encodeString, print, color, X11ColorNames }

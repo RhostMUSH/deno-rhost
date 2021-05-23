@@ -77,24 +77,25 @@ export function environment() {
 	}
 }
 
-/* Output back to Rhost, Rhost-encoding all Unicode code points above low ASCII */
-
-export function encodeString(str) {
-	var codepoints = []
-	var it = str[Symbol.iterator]()
-	var nx = it.next()
-	while(!nx.done) {
-		codepoints.push(nx.value.codePointAt(0))
-		nx = it.next()
-	}
-
-	return codepoints.map(function(cp) {
+export function* mapString(str) {
+	for(var ch of str[Symbol.iterator]()) {
+		var cp = ch.codePointAt(0)
 		if(cp > 127) {
 			cp = cp.toString(0x10).padStart(4, '0')
-			return `%<u${cp}>`
+			yield `%<u${cp}>`
+		} else {
+			yield String.fromCodePoint(cp)
 		}
-		return String.fromCodePoint(cp)
-	}).join('')
+	}
+}
+
+/* Output back to Rhost, Rhost-encoding all Unicode code points above low ASCII */
+export function encodeString(str) {
+	var ret = ""
+	for(var ch of mapString(str)) {
+		ret += ch
+	}
+	return ret
 }
 
 export function print(str) {

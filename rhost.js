@@ -80,13 +80,20 @@ export function environment() {
 /* Output back to Rhost, Rhost-encoding all Unicode code points above low ASCII */
 
 export function encodeString(str) {
-	return str.split("").map(function(c) {
-		var cp = c.codePointAt(0)
+	var codepoints = []
+	var it = str[Symbol.iterator]()
+	var nx = it.next()
+	while(!nx.done) {
+		codepoints.push(nx.value.codePointAt(0))
+		nx = it.next()
+	}
+
+	return codepoints.map(function(cp) {
 		if(cp > 127) {
 			cp = cp.toString(0x10).padStart(4, '0')
 			return `%<u${cp}>`
 		}
-		return c
+		return String.fromCodePoint(cp)
 	}).join('')
 }
 

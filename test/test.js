@@ -15,6 +15,22 @@ describe("color", function() {
 			assert(Rhost.color.x11ToIndex(color[0]) == color[1])
 		})
 	})
+	it("should handle low ASCII", function() {
+		const ash = "Ash is still the bum"
+		const output = Rhost.encodeString(ash)
+		assert(output == "Ash is still the bum")
+	})
+	it("should handle four-hex-digit unicode", function() {
+		const ash = "ࡔ"
+		const output = Rhost.encodeString(ash)
+		assert(output == "%<u0854>")
+	})
+	it("should handle five-hex-digit unicode", function() {
+		const ash = "𒀸"
+		const output = Rhost.encodeString(ash)
+		assert(output == "%<u12038>")
+	})
+
 })
 
 /**

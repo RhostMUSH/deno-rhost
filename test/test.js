@@ -15,6 +15,11 @@ describe("color", function() {
 			assert(Rhost.color.x11ToIndex(color[0]) == color[1])
 		})
 	})
+	it("should convert HTML colors to nearest xterm", function() {
+		assert([9, 196].includes(Rhost.color.htmlToIndex("ff0000")))
+		assert([9, 196].includes(Rhost.color.htmlToIndex("ff0001")))
+		assert(146 == Rhost.color.htmlToIndex("afafd7"))
+	})
 	it("should handle low ASCII", function() {
 		const ash = "Ash is still the bum"
 		const output = Rhost.encodeString(ash)

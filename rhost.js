@@ -696,13 +696,15 @@ export const color = {
 				}
 			}
 			return acc
-		}, { index: 0, distance: Number.MAX_SAFE_INTEGER })
+		}, { index: 0, distance: Number.MAX_SAFE_INTEGER }).index
 	},
 
 	hsvDistance: function(m, n) {
 		const dist =
-		       Math.pow(Math.sin(m.hue) * m.saturation * m.value, 2) +
-		       Math.pow(Math.sin(n.hue) * n.saturation * n.value, 2) +
+		       Math.pow(Math.sin(m.hue / 360.0 * Math.PI * 2) * m.saturation * m.value -
+		                Math.sin(n.hue / 360.0 * Math.PI * 2) * n.saturation * n.value, 2) +
+		       Math.pow(Math.cos(m.hue / 360.0 * Math.PI * 2) * m.saturation * m.value -
+		                Math.cos(n.hue / 360.0 * Math.PI * 2) * n.saturation * n.value, 2) +
 		       Math.pow(m.value - n.value, 2)
 		return Math.pow(dist, 0.5)
 	},

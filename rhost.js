@@ -796,11 +796,11 @@ export const color = {
 		} else if(hsv.hue < 180) {
 			rgbp = { r: 0, g: C, b: X }
 		} else if(hsv.hue < 240) {
-			rgbp = { r: 0, g: C, b: C }
+			rgbp = { r: 0, g: X, b: C }
 		} else if(hsv.hue < 300) {
 			rgbp = { r: X, g: 0, b: C }
 		} else {
-			rgbp = { r: X, g: 0, b: C }
+			rgbp = { r: C, g: 0, b: X }
 		}
 		return { r: rgbp.r + m, g: rgbp.g + m, b: rgbp.b + m }
 	},

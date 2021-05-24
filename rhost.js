@@ -782,5 +782,34 @@ export const color = {
 			saturation: saturation,
 			value: value
 		}
+	},
+
+	hsvtorgb: function(hsv) {
+		const C = hsv.saturation * hsv.value
+		const X = C * (1 - Math.abs(((hsv.hue / 60) % 2) - 1))
+		const m = hsv.value - C
+		var rgbp = {}
+		if(hsv.hue < 60) {
+			rgbp = { r: C, g: X, b: 0 }
+		} else if(hsv.hue < 120) {
+			rgbp = { r: X, g: C, b: 0 }
+		} else if(hsv.hue < 180) {
+			rgbp = { r: 0, g: C, b: X }
+		} else if(hsv.hue < 240) {
+			rgbp = { r: 0, g: C, b: C }
+		} else if(hsv.hue < 300) {
+			rgbp = { r: X, g: 0, b: C }
+		} else {
+			rgbp = { r: X, g: 0, b: C }
+		}
+		return { r: rgbp.r + m, g: rgbp.g + m, b: rgbp.b + m }
+	},
+
+	rgbtohsv: function(rgb) {
+		const rs = Math.floor(rgb.r * 255).toString(0x10).padStart(2, '0')
+		const gs = Math.floor(rgb.g * 255).toString(0x10).padStart(2, '0')
+		const bs = Math.floor(rgb.b * 255).toString(0x10).padStart(2, '0')
+
+		return this.htmlToHSV(rs + gs + bs)
 	}
 }

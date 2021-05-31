@@ -7,7 +7,7 @@ print() function that munges Unicode into the Rhost-native markup.
 
 Sample of use:
 
-const Rhost = await import("https://raw.githubusercontent.com/stevensmedia/deno-rhost/master/rhost.js")
+const Rhost = await import("https://raw.githubusercontent.com/RhostMUSH/deno-rhost/master/rhost.js")
 try {
 	var environment = Rhost.environment()
 	Rhost.print(`You are using a server with execscript version: ${environment.version}`)

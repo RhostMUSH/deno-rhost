@@ -1,6 +1,6 @@
 /* Processing the environment variables sent by Rhost */
 
-export function environment() {
+export function environment(args = {}) {
 	var version = Deno.env.get('MUSH_VERSION')
 	var playerRef = Deno.env.get('MUSH_PLAYER')
 	var causeRef = Deno.env.get('MUSH_CAUSE')
@@ -66,6 +66,16 @@ export function environment() {
 		})
 	}
 
+	const delim = (() => {
+		if(typeof args.delimiter == 'string') {
+			return args.delimiter
+		}
+		return '|'
+	})()
+
+	const rawpassed = Deno.args[0] || ''
+	const passed = rawpassed.split(delim)
+
 	return {
 		version: version,
 		player: player,
@@ -73,7 +83,8 @@ export function environment() {
 		caller: caller,
 		owner: owner,
 		registers: registers,
-		vars: vars
+		vars: vars,
+		args: passed
 	}
 }
 

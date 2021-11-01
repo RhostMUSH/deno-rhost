@@ -109,6 +109,17 @@ export function encodeString(str) {
 	return ret
 }
 
+/* Translate Rhost-encoded Unicode into utf-8 */
+export function decodeString(str) {
+	return str.replace(/%<u([0-9a-fA-F]+)>/g, function(match, p1) {
+		try {
+			return String.fromCodePoint(Number.parseInt(p1, 0x10))
+		} catch(e) {
+			return p1
+		}
+	})
+}
+
 export function print(str) {
 	if(typeof str != "string") {
 		str = Deno.inspect(str)
